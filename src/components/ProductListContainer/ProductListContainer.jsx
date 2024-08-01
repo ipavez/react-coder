@@ -22,13 +22,13 @@ function ProductListContainer({saludo}) {
 
   return (
     <>
-        <h2>{saludo}</h2>
+        <h2 className='saludo'>{saludo}</h2>
         <div className='card-container'>
             {productos.map((product) => {
                 return(
                     <div key= {product.id} className='card'>
-                    <h3>{product.nombre}</h3>
-                    <p>{product.precio}</p>
+                      <h3>{product.nombre}</h3>
+                      <p>${product.precio}</p>
                     </div>
                 )
             })}
