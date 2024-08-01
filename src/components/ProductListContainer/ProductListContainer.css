@@ -1,0 +1,11 @@
+.card{
+    height: 50px;
+    
+}
+.card-container{
+    display: flex;
+    width: 100%;
+    padding: 50px;
+    background-color:darkcyan;
+    gap: 50px
+}
