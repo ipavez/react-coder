@@ -17,7 +17,7 @@ function ProductListContainer({saludo}) {
       }
     }
     fetchData();
-  })
+  },[])
   
 
   return (
