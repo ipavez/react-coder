@@ -2,6 +2,7 @@ import './ProductListContainer.css'
 import ProductList from '../ProductList/ProductList'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 
 
 
@@ -9,23 +10,27 @@ import { useParams } from 'react-router-dom'
 function ProductListContainer({saludo}) {
 
   const [productos, setProductos] = useState([])
+  const [loading, setLoading] = useState(true);
   const {categoryId} = useParams();
 
   useEffect(() => {
-    const fetchData = async() => {
-      try{
-        const datos = await fetch('/productos.json');
-        const data = await datos.json();
-        const filter = categoryId ? data.filter((p) => p.categoria === categoryId) : data
-        
-        setProductos(filter)
+    setLoading(true);
+    const db = getFirestore();
 
-      }catch(err){
-        console.log(err);
-      }
-    }
-    fetchData();
-  },[categoryId])
+    const myProducts = categoryId 
+    ? query(collection(db,"product"),where("categoria","==",categoryId))
+    : collection(db, "product");
+
+    getDocs(myProducts).then((res) => {
+      const newProducts = res.docs.map((doc) => {
+        const data = doc.data();
+        return { id: doc.id, ...data };
+      });
+      setProductos(newProducts);
+    })
+    .catch((err) => console.log('Error', err))
+    .finally ( () => setLoading(false));
+  },[categoryId]);
 
   
   return (
@@ -38,4 +43,4 @@ function ProductListContainer({saludo}) {
   )
 }
 
-export default ProductListContainer
+export default ProductListContainer;

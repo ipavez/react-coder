@@ -7,7 +7,7 @@ function ProductList({productos}) {
   return (
     <div className='card-container'>
       {productos.map((producto) => 
-        <ProductCard key ={producto.id} producto = {producto}/>
+        <ProductCard key ={producto.id} product = {producto}/>
       )}
     </div>
   );
